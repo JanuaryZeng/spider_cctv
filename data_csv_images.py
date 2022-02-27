@@ -16,7 +16,7 @@ for directory in os.listdir(data_path):
     csv_path = os.path.join(tmp_path, "label.csv")
     df = pd.read_csv(csv_path)
     df['images'] = 0
-    df['dir_name'] -= 1
+    # df['dir_name'] -= 1
     print(tmp_path)
     for dirs in os.listdir(tmp_path):
         if dirs == "label.csv":
