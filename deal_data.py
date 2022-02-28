@@ -15,6 +15,8 @@ for directory in os.listdir(data_path):
     index = 0
     tmp_path = os.path.join(data_path, directory)
     df = pd.DataFrame(columns=['dir_name','title','label'])
+    if os.path.exists(os.path.join(tmp_path,"label.csv")):
+        continue
     for dirs in os.listdir(tmp_path):
     
         src = os.path.join(tmp_path, dirs)

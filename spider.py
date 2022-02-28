@@ -12,7 +12,8 @@ from bs4 import BeautifulSoup
 import re
 import os
 import datetime
-# import time
+import time
+time.sleep(60*100)
 
 # driver = webdriver.Firefox(executable_path = "/home/zxj/software/selenium/geckodriver-v0.30.0-linux64/geckodriver")
 # driver.implicitly_wait(5)
@@ -24,26 +25,27 @@ link = "https://tv.cctv.com/lm/xwlb/day/20220221.shtml"
 
 today=datetime.datetime.now()
 
-for i in range(300):
+for i in range(200):
     time_date = today - datetime.timedelta(days=i+1)
     
     time_str = time_date.strftime('%Y%m%d')
+    path = os.path.join(file_path, time_str)
+    if not os.path.exists(path):
+        os.mkdir(path)
+    else:
+        continue
     print(time_str)
     link = "https://tv.cctv.com/lm/xwlb/day/" + time_str + ".shtml"
     html = requests.get(link)
     html.encoding = 'utf-8'
     soup = BeautifulSoup(html.text, 'lxml')
     a_list = soup.find_all("a")
-    path = os.path.join(file_path, time_str)
-    if not os.path.exists(path):
-        os.mkdir(path)
-    else:
-        continue
+
     for i in range(len(a_list)):
         if i == 0 or i == 1 or i % 2 == 0:
         # if not i == 13:
             continue
-        title = a_list[i]['alt'][4:]
+        title = a_list[i]['alt'][4:].replace(' ','')[0:80]
         video_path = os.path.join(path, title)
         # print(video_path)
         if not os.path.exists(video_path):
